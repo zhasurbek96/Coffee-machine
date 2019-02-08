@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="main-block">
+    <div class="coffee-menu">
+
+    </div>
+    <div class="machine-block">
+        <div class="coffee-machine">
+            <div class="coffee-header">
+                <div class="coffee-buttons btn-first"></div>
+                <div class="coffee-buttons btn-second"></div>
+                <div class="coffee-display"><button id="start-btn">Start</button></div>
+                <div class="coffee-cooler"></div>
+            </div>
+            <div class="coffee-center">
+                <div class="coffee-exit"></div>
+                <div class="coffee-arm"></div>
+                <div class="coffee-liquid"></div>
+                <div class="coffee-smoke smoke-one"></div>
+                <div class="coffee-smoke smoke-two"></div>
+                <div class="coffee-smoke smoke-three"></div>
+                <div class="coffee-smoke smoke-four"></div>
+                <div class="coffee-cup"></div>
+            </div>
+            <div class="coffee-footer"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    const coffeeType = [
+                {name: 'espresso', price: 80, image: '',},
+                {name: 'espresso doppio', price: 110, image: '',},
+                {name: 'cafe macchiato', price: 80, image: '',},
+                {name: 'cafe creme', price: 60, image: '',},
+                {name: 'capuccino', price: 100, image: '',},
+                {name: 'dry capuccino', price: 90, image: '',},
+                {name: 'caffe americano', price: 120, image: '',},
+                {name: 'caffe latte', price: 130, image: '',},
+            ];
+    let TotalPrice = 0;
+
+    const menuBlock= $('.coffee-menu');
+    const mainBlock = $('.main-block');
+
+    const askMoney = function() {
+        return parseInt(prompt('Payment is only by cash  \n Please enter the number of your cash'));
+    };
+
+    const makeCoffeeMenu = function () {
+        let i = 0;
+        const total = $('<div class="total">').text('Today\'s sale : 0 som');
+
+        while (i < coffeeType.length) {
+            const makeDiv = $("<div class='coffee'>");
+            const coffeeName = $('<p class="name">').text(coffeeType[i].name);
+            const price = $('<span class="price">').text(coffeeType[i].price);
+            const currency = $('<span class="currency">').text('KGS');
+            const add = $('<span class="add">').text('press:');
+
+            makeDiv.append(coffeeName, add, price, currency);
+            menuBlock.append(makeDiv);
+
+
+
+            price.on('click', function (event) {
+                event.stopPropagation();
+                const cost = parseFloat(event.target.innerHTML);
+
+                const getMoney = askMoney();
+
+                if (getMoney > cost) {
+                    const cashBack = getMoney - cost;
+                    alert('And there\'s your change please: ' + cashBack + ' som');
+                    makeCoffee();
+                    TotalPrice += cost;
+
+                } else if (getMoney < cost) {
+                    const shortage = cost - getMoney;
+                    alert('Sorry coffee that you have chosen costs ' + cost + ' som. Please try again ');
+                    alert('Please get your ' + getMoney + ' som back');
+                } else if (isNaN(getMoney)) {
+                    alert('You have canceled the process!')
+                } else {
+                    alert('Thank you!');
+                    makeCoffee();
+                    TotalPrice += cost;
+                }
+
+                total.html('Total price: ' + TotalPrice + ' som')
+            });
+
+
+            i++
+        }
+
+        mainBlock.append(menuBlock, total);
+
+    };
+
+
+
+
+
+
+    const coffeeLiquidStyle = $(".coffee-liquid");
+    const coffeeArm = $(".coffee-arm");
+    const coffeeSmokeOne = $(".smoke-one");
+    const coffeeSmokeTwo = $(".smoke-two");
+    const coffeeSmokeThree = $(".smoke-three");
+    const coffeeSmokeFour = $(".smoke-four");
+    const coffeeMachine = $('.machine-block');
+
+    const enable = function() {
+        coffeeLiquidStyle.css({
+            'animation': 'liquid 4s 4s linear infinite'
+        });
+
+        coffeeArm.css({
+            'animation': 'arm 3s 4s linear infinite'
+        });
+
+        coffeeSmokeOne.css({
+            'animation': 'smokeOne 3s 4s linear infinite'
+        });
+        coffeeSmokeTwo.css({
+            'animation': 'smokeTwo 3s 5s linear infinite'
+        });
+        coffeeSmokeThree.css({
+            'animation': 'smokeOne 3s 6s linear infinite'
+        });
+        coffeeSmokeFour.css({
+            'animation': 'smokeTwo 3s 5s linear infinite'
+        });
+        coffeeMachine.css({
+            'transform': 'translate(490px, 50px)'
+        })
+    };
+
+    const makeCoffee = function () {
+
+        enable();
+
+        setTimeout(function () {
+            coffeeLiquidStyle.css({
+                'animation': 'none'
+            });
+
+            coffeeArm.css({
+                'animation': 'none'
+            });
+
+            coffeeSmokeOne.css({
+                'animation': 'none'
+            });
+            coffeeSmokeTwo.css({
+                'animation': 'none'
+            });
+            coffeeSmokeThree.css({
+                'animation': 'none'
+            });
+            coffeeSmokeFour.css({
+                'animation': 'none'
+            });
+
+        }, 15000);
+
+        setTimeout(function () {
+            const coffeISReady = alert('Your coffee is ready!\n Enjoy :)');
+            coffeeMachine.css({
+                'transform': 'translate(0, 0)'
+            })
+        }, 16000);
+
+
+    };
+
+    makeCoffeeMenu();
+
+</script>
+</body>
+</html>
