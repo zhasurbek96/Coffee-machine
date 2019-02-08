@@ -41,7 +41,6 @@
 </div>
 
 <script>
-
     const coffeeType = [
                 {name: 'espresso', price: 80, image: '',},
                 {name: 'espresso doppio', price: 110, image: '',},
@@ -75,8 +74,6 @@
             makeDiv.append(coffeeName, add, price, currency);
             menuBlock.append(makeDiv);
 
-
-
             price.on('click', function (event) {
                 event.stopPropagation();
                 const cost = parseFloat(event.target.innerHTML);
@@ -101,21 +98,13 @@
                     TotalPrice += cost;
                 }
 
-                total.html('Total price: ' + TotalPrice + ' som')
+                total.html('Today\'s sale: ' + TotalPrice + ' som')
             });
-
 
             i++
         }
-
         mainBlock.append(menuBlock, total);
-
     };
-
-
-
-
-
 
     const coffeeLiquidStyle = $(".coffee-liquid");
     const coffeeArm = $(".coffee-arm");
@@ -152,7 +141,6 @@
     };
 
     const makeCoffee = function () {
-
         enable();
 
         setTimeout(function () {
@@ -185,8 +173,6 @@
                 'transform': 'translate(0, 0)'
             })
         }, 16000);
-
-
     };
 
     makeCoffeeMenu();
